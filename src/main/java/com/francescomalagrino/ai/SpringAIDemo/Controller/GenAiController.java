@@ -76,6 +76,7 @@ public class GenAiController {
 
 
 
+
     @GetMapping("recipe-creator")
     public String recipeCreator(@RequestParam String ingredients,
                                       @RequestParam(defaultValue = "any") String cuisine,

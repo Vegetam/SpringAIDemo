@@ -42,7 +42,7 @@ ImageResponse imageResponse = openAiImageModel.call(
                         .withHeight(height)
                         .withWidth(width).build())
 );
-
         return imageResponse;
 }
+
 }
