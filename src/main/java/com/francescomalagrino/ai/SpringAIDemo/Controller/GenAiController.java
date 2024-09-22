@@ -2,7 +2,7 @@ package com.francescomalagrino.ai.SpringAIDemo.Controller;
 
 import com.francescomalagrino.ai.SpringAIDemo.Service.ChatService;
 import com.francescomalagrino.ai.SpringAIDemo.Service.ImageService;
-import jakarta.servlet.http.HttpServletResponse;
+import com.francescomalagrino.ai.SpringAIDemo.Service.RecipeService;
 import org.springframework.ai.image.ImageResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,17 +10,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class GenAiController {
 
     private final ChatService chatService;
     private final ImageService imageService;
+    private final RecipeService recipeService;
 
-    public GenAiController(ChatService chatService, ImageService imageService) {
+    public GenAiController(ChatService chatService, ImageService imageService, RecipeService recipeService) {
         this.chatService = chatService;
         this.imageService = imageService;
+        this.recipeService = recipeService;
     }
 
     @GetMapping("ask-ai")
@@ -57,7 +58,7 @@ public class GenAiController {
     }
     */
     @GetMapping("generate-image")
-    public List<String> generateImages(HttpServletResponse response,
+    public List<String> generateImages(
                                        @RequestParam String prompt,
                                        @RequestParam(defaultValue = "hd") String quality,
                                        @RequestParam(defaultValue = "1") int n,
@@ -71,6 +72,16 @@ public class GenAiController {
                 .toList();
 
         return imageUrls;
+    }
+
+
+
+    @GetMapping("recipe-creator")
+    public String recipeCreator(@RequestParam String ingredients,
+                                      @RequestParam(defaultValue = "any") String cuisine,
+                                      @RequestParam(defaultValue = "") String dietaryRestriction) {
+
+        return recipeService.createRecipe(ingredients,cuisine,dietaryRestriction);
     }
 
 }
